@@ -17,6 +17,7 @@ function Home() {
         <nav>
           <Link to="/" style={linkStyle}>Home</Link>
           <Link to="/login" style={linkStyle}>Login</Link>
+          <Link to="/register" style={linkStyle}>Sign Up</Link>
         </nav>
       </header>
 
