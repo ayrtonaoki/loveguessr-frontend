@@ -1,4 +1,3 @@
-// src/components/LoginForm.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,7 +15,7 @@ function LoginForm() {
       const res = await fetch('http://localhost:3001/users/sign_in', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           user: {
@@ -28,8 +27,7 @@ function LoginForm() {
 
       if (res.ok) {
         const data = await res.json();
-        // store JWT/token if you're using it
-        localStorage.setItem('token', data.token); // optional if JWT is returned manually
+        localStorage.setItem('token', data.token);
         navigate('/dashboard');
       } else {
         const data = await res.json();
@@ -42,18 +40,73 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label><br />
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /><br />
-        <label>Password</label><br />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /><br />
-        <button type="submit">Login</button>
+    <div style={containerStyle}>
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <h2 style={headingStyle}>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          required
+          onChange={(e) => setEmail(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          style={inputStyle}
+        />
+        <button type="submit" style={buttonStyle}>Login</button>
+        {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 }
+
+const containerStyle = {
+  backgroundColor: '#ffd6e8',
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
+const formStyle = {
+  backgroundColor: '#fff',
+  padding: '2rem',
+  borderRadius: '12px',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  width: '100%',
+  maxWidth: '400px',
+};
+
+const inputStyle = {
+  padding: '0.75rem',
+  fontSize: '1rem',
+  borderRadius: '8px',
+  border: '1px solid #ccc',
+};
+
+const buttonStyle = {
+  backgroundColor: '#ff70a6',
+  color: '#fff',
+  padding: '0.75rem',
+  fontSize: '1rem',
+  border: 'none',
+  borderRadius: '8px',
+  cursor: 'pointer',
+};
+
+const headingStyle = {
+  textAlign: 'center',
+  marginBottom: '1rem',
+  color: '#333',
+};
 
 export default LoginForm;
