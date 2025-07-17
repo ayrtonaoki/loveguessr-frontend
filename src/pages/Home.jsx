@@ -24,10 +24,10 @@ function Home() {
       {/* Main Content */}
       <main style={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '2rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>Create your own relationship quiz</h2>
-          <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
-            LoveGuessr lets you build fun and thoughtful quizzes about your relationship.
-            Share it with your partner and see how well they really know you!
+          <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#702B50' }}>Guess our love questions</h2>
+          <p style={{ fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto', color: '#333333'}}>
+            Create fun, sweet, or tricky questions about your relationship and send them to your partner to see how well they really know your love story.
+            From first dates to weird habits — it’s all fair game.
           </p>
         </div>
       </main>
