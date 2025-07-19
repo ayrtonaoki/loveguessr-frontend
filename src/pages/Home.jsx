@@ -9,7 +9,8 @@ function Home() {
       id: 1,
       question: 'Where was our first meet?',
       options: ['Theater', 'Park', 'Restaurant', 'Beach'],
-      selectedOption: 'Theater'
+      selectedOption: 'Theater',
+      prize: ''
     }
   ]);
 
@@ -18,7 +19,8 @@ function Home() {
       id: Date.now(),
       question: '',
       options: ['', '', '', ''],
-      selectedOption: ''
+      selectedOption: '',
+      prize: ''
     };
     setQuestions([...questions, newQuestion]);
   };
@@ -48,12 +50,17 @@ function Home() {
     ));
   };
 
+  const handlePrizeChange = (id, value) => {
+    setQuestions(questions.map(q =>
+      q.id === id ? { ...q, prize: value } : q
+    ));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Quiz submitted:", questions);
     // Trigger further logic here
   };
-
 
   return (
     <div style={{
@@ -142,6 +149,27 @@ function Home() {
                     </label>
                   ))}
                 </div>
+
+                {/* Prize field per question */}
+                <div style={{ marginTop: '1rem' }}>
+                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
+                    Unlocked prize:
+                    <input
+                      type="text"
+                      value={q.prize}
+                      onChange={(e) => handlePrizeChange(q.id, e.target.value)}
+                      placeholder="e.g. A dinner date, a surprise gift..."
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        marginTop: '0.5rem',
+                        padding: '0.5rem',
+                        borderRadius: '6px',
+                        border: '1px solid #ccc'
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
             ))}
 
@@ -184,4 +212,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
