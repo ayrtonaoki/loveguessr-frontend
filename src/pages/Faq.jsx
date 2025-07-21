@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -12,8 +11,6 @@ function Faq() {
       fontFamily: "'Poppins', sans-serif"
     }}>
       <Header />
-
-      {/* Wrapper that will grow and push footer down */}
       <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
         <main style={{
           maxWidth: '700px',
@@ -83,7 +80,6 @@ function Faq() {
 
         </main>
       </div>
-
       <Footer />
     </div>
   );
