@@ -1,3 +1,5 @@
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +9,6 @@ function RegisterForm() {
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -43,36 +44,46 @@ function RegisterForm() {
   };
 
   return (
-    <div style={{ backgroundColor: '#ffd6e8', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <form onSubmit={handleSubmit} style={formStyle}>
-        <h2 style={headingStyle}>Sign Up</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={passwordConfirmation}
-          required
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          style={inputStyle}
-        />
-        <button type="submit" style={buttonStyle}>Register</button>
-        {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-      </form>
+    <div style={{
+      backgroundColor: '#FF5D73',
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      fontFamily: "'Poppins', sans-serif"
+    }}>
+      <Header />
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <form onSubmit={handleSubmit} style={formStyle}>
+          <h2 style={headingStyle}>Sign Up</h2>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            required
+            onChange={(e) => setEmail(e.target.value)}
+            style={inputStyle}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            style={inputStyle}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={passwordConfirmation}
+            required
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            style={inputStyle}
+          />
+          <button type="submit" style={buttonStyle}>Register</button>
+          {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+        </form>
+      </div>
+      <Footer />
     </div>
   );
 }
@@ -97,7 +108,7 @@ const inputStyle = {
 };
 
 const buttonStyle = {
-  backgroundColor: '#ff70a6',
+  backgroundColor: '#494949',
   color: '#fff',
   padding: '0.75rem',
   fontSize: '1rem',
