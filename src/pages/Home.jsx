@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -13,7 +11,6 @@ function Home() {
       prize: ''
     }
   ]);
-
   const handleAddQuestion = () => {
     const newQuestion = {
       id: Date.now(),
@@ -24,13 +21,11 @@ function Home() {
     };
     setQuestions([...questions, newQuestion]);
   };
-
   const handleQuestionChange = (id, newText) => {
     setQuestions(questions.map(q =>
       q.id === id ? { ...q, question: newText } : q
     ));
   };
-
   const handleOptionChange = (id, optionIndex, newValue) => {
     setQuestions(questions.map(q =>
       q.id === id
@@ -43,23 +38,19 @@ function Home() {
         : q
     ));
   };
-
   const handleSelectOption = (questionId, value) => {
     setQuestions(questions.map(q =>
       q.id === questionId ? { ...q, selectedOption: value } : q
     ));
   };
-
   const handlePrizeChange = (id, value) => {
     setQuestions(questions.map(q =>
       q.id === id ? { ...q, prize: value } : q
     ));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Quiz submitted:", questions);
-    // Trigger further logic here
   };
 
   return (
@@ -149,8 +140,6 @@ function Home() {
                     </label>
                   ))}
                 </div>
-
-                {/* Prize field per question */}
                 <div style={{ marginTop: '1rem' }}>
                   <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
                     Unlocked prize:
@@ -172,7 +161,6 @@ function Home() {
                 </div>
               </div>
             ))}
-
             <button
               type="button"
               onClick={handleAddQuestion}
@@ -189,7 +177,6 @@ function Home() {
             >
               Add Question
             </button>
-
             <button
               type="submit"
               style={{
