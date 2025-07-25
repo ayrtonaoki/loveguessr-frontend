@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Home() {
+  const [quizTitle, setQuizTitle] = useState('');
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -51,7 +52,7 @@ function Home() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Quiz submitted:", questions);
+    console.log("Quiz submitted:", { quizTitle, questions });
   };
 
   return (
@@ -97,6 +98,30 @@ function Home() {
             borderRadius: '12px',
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
           }}>
+            <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
+              <label style={{
+                  fontWeight: 'bold',
+                  display: 'block',
+                  marginBottom: '0.5rem',
+                  fontSize: '20px'
+                }}>
+                Quiz Title:
+                <input
+                  type="text"
+                  value={quizTitle}
+                  onChange={(e) => setQuizTitle(e.target.value)}
+                  placeholder="Enter your quiz title..."
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    marginTop: '0.5rem',
+                    padding: '0.5rem',
+                    borderRadius: '6px',
+                    border: '1px solid #ccc'
+                  }}
+                />
+              </label>
+            </div>
             {questions.map((q, index) => (
               <div key={q.id} style={{ marginBottom: '2rem', textAlign: 'left' }}>
                 <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
