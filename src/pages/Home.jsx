@@ -50,10 +50,41 @@ function Home() {
       q.id === id ? { ...q, prize: value } : q
     ));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Quiz submitted:", { quizTitle, questions });
+
+    const payload = {
+      quiz: {
+        title: quizTitle,
+        questions_attributes: questions.map(q => ({
+          question: q.question,
+          options: q.options,
+          correct_answer: q.selectedOption,
+          prize: q.prize
+        }))
+      }
+    };
+
+    try {
+      const response = await fetch('http://localhost:3001/api/v1/quizzes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Quiz created:', data);
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+    }
   };
+
 
   return (
     <div style={{
