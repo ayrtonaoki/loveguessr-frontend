@@ -6,7 +6,7 @@ function Footer() {
       fontSize: '0.9rem',
       backgroundColor: '#FFFFFF'
     }}>
-      Contact: loveguessr@example.com
+      Contact: myloveshop@example.com
     </footer>
   );
 }
