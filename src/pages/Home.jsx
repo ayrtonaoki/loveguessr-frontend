@@ -3,87 +3,72 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Home() {
-  const [quizTitle, setQuizTitle] = useState('');
-  const [questions, setQuestions] = useState([
+  const [shopTitle, setShopTitle] = useState('');
+  const [products, setProducts] = useState([
     {
       id: 1,
-      question: 'Where was our first meet?',
-      options: ['Theater', 'Park', 'Restaurant', 'Beach'],
-      selectedOption: 'Theater',
-      prize: ''
+      product: ''
     }
   ]);
-  const handleAddQuestion = () => {
-    const newQuestion = {
+  const handleAddProduct = () => {
+    if (products.length >= 5) {
+      alert('Você só pode adicionar no máximo 5 produtos.');
+      return;
+    }
+    const newProduct = {
       id: Date.now(),
-      question: '',
-      options: ['', '', '', ''],
-      selectedOption: '',
-      prize: ''
+      product: ''
     };
-    setQuestions([...questions, newQuestion]);
+    setProducts([...products, newProduct]);
   };
-  const handleQuestionChange = (id, newText) => {
-    setQuestions(questions.map(q =>
-      q.id === id ? { ...q, question: newText } : q
+  const handleProductChange = (id, newText) => {
+    setProducts(products.map(p =>
+      p.id === id ? { ...p, product: newText } : p
     ));
   };
-  const handleOptionChange = (id, optionIndex, newValue) => {
-    setQuestions(questions.map(q =>
-      q.id === id
-        ? {
-            ...q,
-            options: q.options.map((opt, idx) =>
-              idx === optionIndex ? newValue : opt
-            )
-          }
-        : q
-    ));
-  };
-  const handleSelectOption = (questionId, value) => {
-    setQuestions(questions.map(q =>
-      q.id === questionId ? { ...q, selectedOption: value } : q
-    ));
-  };
-  const handlePrizeChange = (id, value) => {
-    setQuestions(questions.map(q =>
-      q.id === id ? { ...q, prize: value } : q
-    ));
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const payload = {
-      quiz: {
-        title: quizTitle,
-        questions_attributes: questions.map(q => ({
-          question: q.question,
-          options: q.options,
-          correct_answer: q.selectedOption,
-          prize: q.prize
-        }))
-      }
-    };
+  // ✅ Validation logic
+  if (!shopTitle.trim()) {
+    alert('Shop title is required.');
+    return;
+  }
+  if (products.some(p => !p.product.trim())) {
+    alert('All product fields must be filled.');
+    return;
+  }
 
-    try {
-      const response = await fetch('http://localhost:3001/api/v1/quizzes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      console.log('Quiz created:', data);
-    } catch (error) {
-      console.error('Error creating quiz:', error);
+  const payload = {
+    shop: {
+      title: shopTitle,
+      products_attributes: products.map(p => ({
+        product: p.product
+      }))
     }
   };
+
+  try {
+    const response = await fetch('http://localhost:3001/api/v1/quizzes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Quiz created:', data);
+    alert('Shop created successfully!'); // Optional: user feedback
+  } catch (error) {
+    console.error('Error creating quiz:', error);
+    alert('An error occurred. Please try again.'); // Optional: user feedback
+  }
+};
 
 
   return (
@@ -110,8 +95,8 @@ function Home() {
             color: '#000000',
             marginBottom: '2rem'
           }}>
-            Create fun, sweet, and personalized questions about your relationship
-            and send the quiz to your partner.
+            Design a lovely shop full of heartfelt gifts, sweet surprises,
+            and meaningful acts of love for your special someone.
           </p>
 
           <h2 style={{
@@ -136,12 +121,12 @@ function Home() {
                   marginBottom: '0.5rem',
                   fontSize: '20px'
                 }}>
-                Quiz Title:
+                Shop name:
                 <input
                   type="text"
-                  value={quizTitle}
-                  onChange={(e) => setQuizTitle(e.target.value)}
-                  placeholder="Enter your quiz title..."
+                  value={shopTitle}
+                  onChange={(e) => setShopTitle(e.target.value)}
+                  placeholder="My Love Shop"
                   style={{
                     display: 'block',
                     width: '100%',
@@ -153,15 +138,15 @@ function Home() {
                 />
               </label>
             </div>
-            {questions.map((q, index) => (
-              <div key={q.id} style={{ marginBottom: '2rem', textAlign: 'left' }}>
+            {products.map((p, index) => (
+              <div key={p.id} style={{ marginBottom: '2rem', textAlign: 'left' }}>
                 <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-                  Question #{index + 1}:
+                  Product #{index + 1}:
                   <input
                     type="text"
-                    value={q.question}
-                    onChange={(e) => handleQuestionChange(q.id, e.target.value)}
-                    placeholder="Type your question here..."
+                    value={p.product  }
+                    onChange={(e) => handleProductChange(p.id, e.target.value)}
+                    placeholder="A hug, dinner, household chores..."
                     style={{
                       display: 'block',
                       width: '100%',
@@ -172,74 +157,31 @@ function Home() {
                     }}
                   />
                 </label>
-                <div style={{ marginTop: '1rem' }}>
-                  {q.options.map((opt, optIdx) => (
-                    <label key={optIdx} style={{ display: 'block', marginBottom: '0.5rem' }}>
-                      <input
-                        type="radio"
-                        name={`question-${q.id}`}
-                        value={opt}
-                        checked={q.selectedOption === opt}
-                        onChange={() => handleSelectOption(q.id, opt)}
-                      />{" "}
-                      <input
-                        type="text"
-                        value={opt}
-                        onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
-                        placeholder={`Option ${optIdx + 1}`}
-                        style={{
-                          marginLeft: '0.5rem',
-                          padding: '0.3rem',
-                          borderRadius: '4px',
-                          border: '1px solid #ccc'
-                        }}
-                      />
-                    </label>
-                  ))}
-                </div>
-                <div style={{ marginTop: '1rem' }}>
-                  <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.5rem' }}>
-                    Unlocked prize:
-                    <input
-                      type="text"
-                      value={q.prize}
-                      onChange={(e) => handlePrizeChange(q.id, e.target.value)}
-                      placeholder="e.g. A dinner date, a surprise gift..."
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        marginTop: '0.5rem',
-                        padding: '0.5rem',
-                        borderRadius: '6px',
-                        border: '1px solid #ccc'
-                      }}
-                    />
-                  </label>
-                </div>
               </div>
             ))}
             <button
               type="button"
-              onClick={handleAddQuestion}
+              onClick={handleAddProduct}
+              disabled={products.length >= 5}
               style={{
                 padding: '0.75rem 1.5rem',
-                backgroundColor: '#494949',
+                backgroundColor: products.length >= 5 ? '#ccc' : '#7C7A7A',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
                 fontWeight: 'bold',
-                cursor: 'pointer',
+                cursor: products.length >= 5 ? 'not-allowed' : 'pointer',
                 marginBottom: '1rem'
               }}
             >
-              Add Question
+              Add New Product
             </button>
             <button
               type="submit"
               style={{
                 marginLeft: '1rem',
                 padding: '0.75rem 1.5rem',
-                backgroundColor: '#7C7A7A',
+                backgroundColor: '#494949',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
@@ -247,7 +189,7 @@ function Home() {
                 cursor: 'pointer'
               }}
             >
-              Create Quiz
+              Create Shop
             </button>
           </form>
         </div>
