@@ -26,7 +26,7 @@ function Header() {
         color: 'white',
         textShadow: '2px 2px 0 #000'
       }}>
-        LoveGuessr
+        MyLoveShop
       </h1>
       <nav>
         <Link to="/" style={linkStyle}>Home</Link>
