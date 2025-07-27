@@ -29,7 +29,6 @@ function Home() {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  // ✅ Validation logic
   if (!shopTitle.trim()) {
     alert('Shop title is required.');
     return;
@@ -49,7 +48,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-    const response = await fetch('http://localhost:3001/api/v1/quizzes', {
+    const response = await fetch('http://localhost:3001/api/v1/shops', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -62,11 +61,9 @@ const handleSubmit = async (e) => {
     }
 
     const data = await response.json();
-    console.log('Quiz created:', data);
-    alert('Shop created successfully!'); // Optional: user feedback
+    alert('Shop created successfully!');
   } catch (error) {
-    console.error('Error creating quiz:', error);
-    alert('An error occurred. Please try again.'); // Optional: user feedback
+    alert('An error occurred. Please try again.');
   }
 };
 
